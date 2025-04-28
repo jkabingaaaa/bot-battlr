@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import BotCollection from './components/BotCollection';
+import YourBotArmy from './components/YourBotArmy';
+import './styles.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [bots, setBots] = useState([]);
+  const [yourArmy, setYourArmy] = useState([]);
+  const [selectedBot, setSelectedBot] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:8001/bots')
+      .then(res => res.json())
+      .then(data => setBots(data))
+      .catch(err => console.error('Error fetching bots:', err));
+  }, []);
+
+  const enlistBot = (bot) => {
+    if (!yourArmy.some(b => b.id === bot.id)) {
+      setYourArmy([...yourArmy, bot]);
+    }
+  };
+
+  const releaseBot = (bot) => {
+    setYourArmy(yourArmy.filter(b => b.id !== bot.id));
+  };
+
+  const dischargeBot = (bot) => {
+    fetch(`http://localhost:8001/bots/${bot.id}`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      setBots(bots.filter(b => b.id !== bot.id));
+      setYourArmy(yourArmy.filter(b => b.id !== bot.id));
+    })
+    .catch(err => console.error('Error discharging bot:', err));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <h1>Bot Battlr</h1>
+      <YourBotArmy 
+        army={yourArmy} 
+        onRelease={releaseBot} 
+        onDischarge={dischargeBot}
+      />
+      <BotCollection 
+        bots={bots} 
+        onEnlist={enlistBot} 
+        onSelect={setSelectedBot}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
