@@ -24,4 +24,4 @@ function YourBotArmy({ army, onRelease, onDischarge }) {
   );
 }
 
-export default YourBotArmy;
+export default YourBotArmy

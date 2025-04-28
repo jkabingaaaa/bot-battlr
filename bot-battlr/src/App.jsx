@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import BotCollection from './components/BotCollection';
-import YourBotArmy from './components/YourBotArmy';
 import './styles.css';
+import BotCollection from './BotCollections';
+import YourBotArmy from './YourBotArmy';
 
 function App() {
   const [bots, setBots] = useState([]);
@@ -53,4 +53,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

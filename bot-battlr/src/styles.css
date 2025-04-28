@@ -6,7 +6,7 @@
   }
   
   h1, h2 {
-    color: #333;
+    color: black;
   }
   
   .bot-collection, .your-army {
@@ -20,7 +20,7 @@
   }
   
   .bot-card {
-    border: 1px solid #ddd;
+    border: 1px solid white;
     border-radius: 8px;
     padding: 15px;
     cursor: pointer;
@@ -46,7 +46,7 @@
   
   .catchphrase {
     font-style: italic;
-    color: #666;
+    color: grey;
   }
   
   .discharge-btn {
@@ -75,7 +75,7 @@
   .bot-specs button {
     margin: 10px;
     padding: 8px 16px;
-    background: #4CAF50;
+    background: green;
     color: white;
     border: none;
     border-radius: 4px;
